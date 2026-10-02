@@ -1,0 +1,29 @@
+stages:
+  preprocess:
+    cmd: python3 -m src.data.preprocess --config params.yaml
+    deps:
+      - src/data/preprocess.py
+      - SMSSpamCollection
+      - PhiUSIIL_Phishing_URL_Dataset.csv
+      - verified_online.csv
+    params:
+      - base.random_seed
+      - cleaning.min_text_length
+      - cleaning.remove_corrupted
+      - cleaning.deduplicate_cross_dataset
+      - split.train_ratio
+      - split.val_ratio
+      - split.test_ratio
+      - imbalance.strategy
+      - features.tfidf.max_features
+      - features.sequence.max_vocab_size
+      - features.sequence.max_sequence_length
+    outs:
+      - data/processed/train.csv
+      - data/processed/val.csv
+      - data/processed/test.csv
+      - data/processed/tokenizer.json
+      - data/processed/tfidf_vectorizer.pkl
+      - reports/raw_data_profile.json
+      - reports/raw_data_profile.html
+      - reports/cleaning_comparison.json
