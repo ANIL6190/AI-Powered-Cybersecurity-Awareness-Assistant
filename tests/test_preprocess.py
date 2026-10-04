@@ -30,6 +30,28 @@ from src.data.preprocess import (
 )
 
 
+def _nltk_data_available() -> bool:
+    import nltk
+    try:
+        nltk.data.find("corpora/stopwords")
+        nltk.data.find("tokenizers/punkt_tab")
+    except LookupError:
+        return False
+    for wordnet in ("corpora/wordnet", "corpora/wordnet.zip"):  # wordnet is usually left zipped
+        try:
+            nltk.data.find(wordnet)
+            return True
+        except LookupError:
+            continue
+    return False
+
+
+requires_nltk = pytest.mark.skipif(
+    not _nltk_data_available(),
+    reason="NLTK data not installed; run `python scripts/setup_nltk.py`",
+)
+
+
 # ==============================================================================
 # 1. Schema and Label Tests
 # ==============================================================================
@@ -144,6 +166,18 @@ def test_clean_text_single_tokens():
 # ==============================================================================
 # 5. NLP Preprocessing Tests
 # ==============================================================================
+@requires_nltk
+def test_nlp_preprocess_keeps_placeholder_tokens():
+    # Regression: word_tokenize split "<url>" into "<", "url", ">" so placeholders were lost.
+    cleaned = clean_text_single("Claim your prize at http://bit.ly/x or call +1 800-555-0199")
+    df = pd.DataFrame({"text": ["x"], "cleaned_text": [cleaned], "type": ["sms"], "label": ["spam"], "source": ["test"]})
+    processed = nlp_preprocess(df)["processed_text"].iloc[0].split()
+    assert "<url>" in processed
+    assert "<phone>" in processed
+    assert "url" not in processed
+
+
+@requires_nltk
 def test_nlp_preprocess_signals_preserved():
     df = pd.DataFrame({
         "text": ["Urgent alert! Update your bank account now, do not wait."],

@@ -1,29 +1,159 @@
+# Phase 1 pipeline — binary URL phishing classification.
+# Run with the project virtualenv active:  source .venv/bin/activate && dvc repro
+# The legacy 3-class Stage 1 pipeline is preserved in archive/legacy_stage1_dvc.yaml.
+
 stages:
-  preprocess:
-    cmd: python3 -m src.data.preprocess --config params.yaml
+  prepare:
+    cmd: python -m src.data.make_dataset --config params.yaml
     deps:
-      - src/data/preprocess.py
-      - SMSSpamCollection
-      - PhiUSIIL_Phishing_URL_Dataset.csv
-      - verified_online.csv
+      - src/data/make_dataset.py
+      - src/utils/urls.py
+      - src/utils/config.py
+      - data/raw/PhiUSIIL_Phishing_URL_Dataset.csv
+      - data/raw/phishvn_v3.1.0
     params:
       - base.random_seed
-      - cleaning.min_text_length
-      - cleaning.remove_corrupted
-      - cleaning.deduplicate_cross_dataset
-      - split.train_ratio
-      - split.val_ratio
-      - split.test_ratio
-      - imbalance.strategy
-      - features.tfidf.max_features
-      - features.sequence.max_vocab_size
-      - features.sequence.max_sequence_length
+      - task
+      - raw_data
+      - url
+      - phishvn
+      - temporal
+      - split
+      - output.processed_dir
     outs:
-      - data/processed/train.csv
-      - data/processed/val.csv
-      - data/processed/test.csv
-      - data/processed/tokenizer.json
-      - data/processed/tfidf_vectorizer.pkl
-      - reports/raw_data_profile.json
-      - reports/raw_data_profile.html
-      - reports/cleaning_comparison.json
+      - data/processed/phase1/train.csv
+      - data/processed/phase1/val.csv
+      - data/processed/phase1/test.csv
+      - data/processed/phase1/shift_test.csv
+      - data/processed/phase1/temporal_test.csv
+    metrics:
+      - reports/phase1/prepare_summary.json:
+          cache: false
+
+  validate:
+    cmd: python -m src.data.validate --config params.yaml
+    deps:
+      - src/data/validate.py
+      - data/processed/phase1/train.csv
+      - data/processed/phase1/val.csv
+      - data/processed/phase1/test.csv
+      - data/processed/phase1/shift_test.csv
+      - data/processed/phase1/temporal_test.csv
+    params:
+      - task.include_sms
+      - temporal.cutoff_date
+      - phishvn.attested_date_sources
+      - validation
+    metrics:
+      - reports/phase1/validation.json:
+          cache: false
+
+  eda:
+    cmd: python -m src.eda.run_eda --config params.yaml
+    deps:
+      - src/eda/run_eda.py
+      - data/raw/PhiUSIIL_Phishing_URL_Dataset.csv
+      - data/raw/phishvn_v3.1.0
+      - data/processed/phase1/train.csv
+      - data/processed/phase1/val.csv
+      - data/processed/phase1/test.csv
+      - data/processed/phase1/shift_test.csv
+      - data/processed/phase1/temporal_test.csv
+      - reports/phase1/prepare_summary.json
+    params:
+      - base.random_seed
+      - temporal.cutoff_date
+      - phishvn
+    outs:
+      - reports/phase1/eda
+    metrics:
+      - reports/phase1/eda_summary.json:
+          cache: false
+
+  featurize:
+    cmd: python -m src.features.build_features --config params.yaml
+    deps:
+      - src/features/build_features.py
+      - data/processed/phase1/train.csv
+      - data/processed/phase1/val.csv
+      - data/processed/phase1/test.csv
+      - data/processed/phase1/shift_test.csv
+      - data/processed/phase1/temporal_test.csv
+      # Runs only after validation has produced a (passing) report.
+      - reports/phase1/validation.json
+    params:
+      - features.tfidf
+    outs:
+      - data/processed/phase1/features
+      - models/tfidf_vectorizer.joblib
+    metrics:
+      - reports/phase1/features_summary.json:
+          cache: false
+
+  train_logreg:
+    cmd: python -m src.models.train --config params.yaml --model logreg
+    deps:
+      - src/models/train.py
+      - src/models/metrics.py
+      - src/utils/tracking.py
+      - data/processed/phase1/features
+      - models/tfidf_vectorizer.joblib
+    params:
+      - base.random_seed
+      - models.logreg
+      - evaluation.threshold
+      - mlflow
+    outs:
+      - models/logreg.joblib
+    metrics:
+      - reports/phase1/train_logreg.json:
+          cache: false
+
+  train_xgboost:
+    cmd: python -m src.models.train --config params.yaml --model xgboost
+    deps:
+      - src/models/train.py
+      - src/models/metrics.py
+      - src/utils/tracking.py
+      - data/processed/phase1/features
+      - models/tfidf_vectorizer.joblib
+    params:
+      - base.random_seed
+      - models.xgboost
+      - evaluation.threshold
+      - mlflow
+    outs:
+      - models/xgboost.joblib
+    metrics:
+      - reports/phase1/train_xgboost.json:
+          cache: false
+
+  evaluate:
+    cmd: python -m src.models.evaluate --config params.yaml
+    deps:
+      - src/models/evaluate.py
+      - src/models/metrics.py
+      - src/utils/tracking.py
+      - data/processed/phase1/features
+      - data/processed/phase1/test.csv
+      - data/processed/phase1/shift_test.csv
+      - data/processed/phase1/temporal_test.csv
+      - models/logreg.joblib
+      - models/xgboost.joblib
+      - reports/phase1/train_logreg.json
+      - reports/phase1/train_xgboost.json
+    params:
+      - evaluation.threshold
+      - temporal.cutoff_date
+      - phishvn.attested_date_sources
+      - url.representation
+      - mlflow
+    metrics:
+      - reports/phase1/metrics.json:
+          cache: false
+    plots:
+      - reports/phase1/plots:
+          cache: false
+    outs:
+      - reports/phase1/model_comparison.md:
+          cache: false

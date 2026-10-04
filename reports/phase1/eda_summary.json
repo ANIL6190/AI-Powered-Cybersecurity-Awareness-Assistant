@@ -1,0 +1,504 @@
+{
+  "phiusiil_raw": {
+    "shape": [
+      235795,
+      4
+    ],
+    "dtypes": {
+      "URL": "str",
+      "Domain": "str",
+      "TLD": "str",
+      "label": "int64"
+    },
+    "missing_values": {},
+    "exact_duplicate_rows": 425,
+    "n_columns_total": 55
+  },
+  "phishvn_raw": {
+    "shape": [
+      53116,
+      29
+    ],
+    "dtypes": {
+      "channel": "str",
+      "label": "str",
+      "source": "str",
+      "is_llm": "str",
+      "lang": "str",
+      "scenario": "str",
+      "impersonated_org": "str",
+      "collected_at": "str",
+      "scraped_at": "str",
+      "label_source": "str",
+      "split": "str",
+      "url": "str",
+      "url_norm": "str",
+      "domain": "str",
+      "tld": "str",
+      "url_len": "str",
+      "num_dots": "str",
+      "num_subdomains": "str",
+      "has_ip": "str",
+      "has_at": "str",
+      "suspicious_tld": "str",
+      "status": "str",
+      "tier": "str",
+      "rank": "str",
+      "text": "str",
+      "msg_len": "str",
+      "gen_model": "str",
+      "has_url": "str",
+      "id": "str"
+    },
+    "missing_values": {
+      "impersonated_org": 48503,
+      "collected_at": 31455,
+      "status": 50529,
+      "rank": 44611,
+      "text": 53116,
+      "msg_len": 53116,
+      "gen_model": 53116,
+      "has_url": 53116
+    },
+    "exact_duplicate_rows": 0,
+    "n_columns_total": 29
+  },
+  "phiusiil_class_counts": {
+    "legitimate": 134850,
+    "phishing": 100945
+  },
+  "phishvn_source_tier_label_counts": [
+    {
+      "source": "chongluadao",
+      "tier": "bronze",
+      "label": "phishing",
+      "n": 33823
+    },
+    {
+      "source": "openphish",
+      "tier": "bronze",
+      "label": "phishing",
+      "n": 296
+    },
+    {
+      "source": "tinnhiem_org",
+      "tier": "gold",
+      "label": "legitimate",
+      "n": 2026
+    },
+    {
+      "source": "tinnhiem_web",
+      "tier": "gold",
+      "label": "legitimate",
+      "n": 5879
+    },
+    {
+      "source": "tinnhiemmang",
+      "tier": "gold",
+      "label": "phishing",
+      "n": 1688
+    },
+    {
+      "source": "tinnhiemmang",
+      "tier": "silver",
+      "label": "phishing",
+      "n": 899
+    },
+    {
+      "source": "tranco",
+      "tier": "silver",
+      "label": "legitimate",
+      "n": 5993
+    },
+    {
+      "source": "tranco_vn",
+      "tier": "silver",
+      "label": "legitimate",
+      "n": 2512
+    }
+  ],
+  "phiusiil_duplicate_urls": 425,
+  "phishvn_duplicate_urls": 0,
+  "format_artefacts_raw_phiusiil": {
+    "legitimate": {
+      "starts_https": 1.0,
+      "starts_http": 0.0,
+      "has_scheme": 1.0,
+      "has_www": 1.0,
+      "trailing_slash": 0.0,
+      "has_path": 0.0
+    },
+    "phishing": {
+      "starts_https": 0.4874,
+      "starts_http": 0.5126,
+      "has_scheme": 1.0,
+      "has_www": 0.414,
+      "trailing_slash": 0.3647,
+      "has_path": 0.2842
+    }
+  },
+  "format_artefacts_raw_phishvn": {
+    "legitimate": {
+      "starts_https": 0.123,
+      "starts_http": 0.0004,
+      "has_scheme": 0.1235,
+      "has_www": 0.0055,
+      "trailing_slash": 0.0018,
+      "has_path": 0.0015
+    },
+    "phishing": {
+      "starts_https": 0.0055,
+      "starts_http": 0.0026,
+      "has_scheme": 0.0081,
+      "has_www": 0.4632,
+      "trailing_slash": 0.0043,
+      "has_path": 0.0047
+    }
+  },
+  "prepared_rows": {
+    "train": 164113,
+    "val": 34157,
+    "test": 33476,
+    "shift_test": 17902,
+    "temporal_test": 774
+  },
+  "prepared_phishing_rate": {
+    "train": 0.423,
+    "val": 0.405,
+    "test": 0.4088,
+    "shift_test": 0.1428,
+    "temporal_test": 0.478
+  },
+  "has_path_rate_after_canonicalisation": {
+    "legitimate": 0.0,
+    "phishing": 0.2825
+  },
+  "model_text_length": {
+    "phiusiil_pool": {
+      "legitimate": {
+        "count": 134807.0,
+        "mean": 15.23,
+        "std": 4.82,
+        "min": 4.0,
+        "25%": 12.0,
+        "50%": 15.0,
+        "75%": 18.0,
+        "max": 46.0
+      },
+      "phishing": {
+        "count": 96939.0,
+        "mean": 36.7,
+        "std": 61.16,
+        "min": 4.0,
+        "25%": 16.0,
+        "50%": 25.0,
+        "75%": 39.0,
+        "max": 6089.0
+      }
+    },
+    "phishvn_shift": {
+      "legitimate": {
+        "count": 15346.0,
+        "mean": 18.18,
+        "std": 7.96,
+        "min": 4.0,
+        "25%": 12.0,
+        "50%": 16.0,
+        "75%": 24.0,
+        "max": 70.0
+      },
+      "phishing": {
+        "count": 2556.0,
+        "mean": 14.91,
+        "std": 6.36,
+        "min": 6.0,
+        "25%": 10.0,
+        "50%": 13.0,
+        "75%": 18.0,
+        "max": 65.0
+      }
+    }
+  },
+  "top_tlds": {
+    "PhiUSIIL pool": {
+      "com": {
+        "legitimate": 68758,
+        "phishing": 42123
+      },
+      "org": {
+        "legitimate": 16519,
+        "phishing": 2213
+      },
+      "net": {
+        "legitimate": 3996,
+        "phishing": 2983
+      },
+      "uk": {
+        "legitimate": 6072,
+        "phishing": 316
+      },
+      "app": {
+        "legitimate": 140,
+        "phishing": 6165
+      },
+      "co": {
+        "legitimate": 458,
+        "phishing": 4760
+      },
+      "de": {
+        "legitimate": 3310,
+        "phishing": 660
+      },
+      "io": {
+        "legitimate": 431,
+        "phishing": 3486
+      },
+      "ru": {
+        "legitimate": 892,
+        "phishing": 2902
+      },
+      "au": {
+        "legitimate": 2606,
+        "phishing": 347
+      },
+      "top": {
+        "legitimate": 2,
+        "phishing": 2283
+      },
+      "jp": {
+        "legitimate": 2082,
+        "phishing": 126
+      },
+      "dev": {
+        "legitimate": 33,
+        "phishing": 2154
+      },
+      "it": {
+        "legitimate": 1668,
+        "phishing": 211
+      },
+      "edu": {
+        "legitimate": 1856,
+        "phishing": 4
+      }
+    },
+    "PhishVN shift_test": {
+      "vn": {
+        "legitimate": 9583,
+        "phishing": 95
+      },
+      "com": {
+        "legitimate": 2713,
+        "phishing": 1169
+      },
+      "net": {
+        "legitimate": 410,
+        "phishing": 135
+      },
+      "cn": {
+        "legitimate": 68,
+        "phishing": 175
+      },
+      "ru": {
+        "legitimate": 229,
+        "phishing": 0
+      },
+      "xyz": {
+        "legitimate": 37,
+        "phishing": 176
+      },
+      "org": {
+        "legitimate": 180,
+        "phishing": 23
+      },
+      "top": {
+        "legitimate": 20,
+        "phishing": 128
+      },
+      "de": {
+        "legitimate": 127,
+        "phishing": 0
+      },
+      "uk": {
+        "legitimate": 116,
+        "phishing": 0
+      },
+      "info": {
+        "legitimate": 25,
+        "phishing": 87
+      },
+      "io": {
+        "legitimate": 100,
+        "phishing": 12
+      },
+      "vip": {
+        "legitimate": 8,
+        "phishing": 91
+      },
+      "br": {
+        "legitimate": 99,
+        "phishing": 0
+      },
+      "online": {
+        "legitimate": 23,
+        "phishing": 71
+      }
+    }
+  },
+  "phishvn_shift_p_legitimate_given_vn_tld": 0.9902,
+  "domain_groups": {
+    "n_groups": 197665,
+    "singleton_share": 0.9714,
+    "max_group_size": 2889,
+    "groups_over_100_rows": 45,
+    "largest_groups": {
+      "weeblysite.com": 2889,
+      "ipfs.io": 1437,
+      "xsph.ru": 928,
+      "google.com": 781,
+      "godaddysites.com": 732,
+      "weebly.com": 533,
+      "webwave.dev": 525,
+      "fleek.co": 459,
+      "tw1.ru": 405,
+      "deliverylifesupport.com": 393
+    }
+  },
+  "phishvn_attested_dates": {
+    "tinnhiem_org": {
+      "min": "2021-04-01",
+      "max": "2026-03-25",
+      "n": 2026,
+      "after_cutoff": 526
+    },
+    "tinnhiemmang": {
+      "min": "2020-02-08",
+      "max": "2025-02-18",
+      "n": 2587,
+      "after_cutoff": 374
+    }
+  },
+  "phishvn_dates_not_used": [
+    {
+      "source": "chongluadao",
+      "tier": "bronze",
+      "n": 17048
+    }
+  ],
+  "phishvn_verified_phishing_abuse_types": {
+    "unknown": 2089,
+    "brand_impersonation": 451,
+    "betting_stream": 22,
+    "investment": 19,
+    "gambling": 4,
+    "adult": 2
+  },
+  "phishvn_verified_phishing_scenarios": {
+    "other": 2136,
+    "bank": 306,
+    "ecommerce": 82,
+    "gov": 19,
+    "delivery": 18,
+    "social": 10,
+    "gaming": 8,
+    "telecom": 7,
+    "tax": 1
+  },
+  "cleaning": {
+    "phiusiil": {
+      "rows_raw": 235795,
+      "labels_raw": {
+        "legitimate": 134850,
+        "phishing": 100945
+      },
+      "dropped_too_short": 1,
+      "dropped_no_domain": 0,
+      "label_conflict_texts": 43,
+      "label_conflict_rows_dropped": 86,
+      "duplicate_rows_dropped": 3962,
+      "rows_final": 231746,
+      "has_path_rate_by_label": {
+        "legitimate": 0.0,
+        "phishing": 0.2825
+      }
+    },
+    "phishvn": {
+      "rows_raw": 53116,
+      "rows_after_tier_filter": 18997,
+      "tiers_used": [
+        "gold",
+        "silver"
+      ],
+      "attested_date_sources": [
+        "tinnhiemmang",
+        "tinnhiem_org"
+      ],
+      "unparseable_attested_dates": 0,
+      "rows_with_event_date": 4613,
+      "dropped_too_short": 0,
+      "dropped_no_domain": 0,
+      "label_conflict_texts": 0,
+      "label_conflict_rows_dropped": 0,
+      "duplicate_rows_dropped": 64,
+      "removed_exact_text_overlap": 506,
+      "removed_domain_overlap": 525,
+      "rows_final": 17902,
+      "labels_final": {
+        "legitimate": 15346,
+        "phishing": 2556
+      },
+      "source_labels_final": {
+        "tinnhiem_org": {
+          "legitimate": 1658,
+          "phishing": 0
+        },
+        "tinnhiem_web": {
+          "legitimate": 5753,
+          "phishing": 0
+        },
+        "tinnhiemmang": {
+          "legitimate": 0,
+          "phishing": 2556
+        },
+        "tranco": {
+          "legitimate": 5466,
+          "phishing": 0
+        },
+        "tranco_vn": {
+          "legitimate": 2469,
+          "phishing": 0
+        }
+      }
+    }
+  },
+  "canonicalisation_examples": {
+    "legitimate": [
+      {
+        "raw": "https://www.atelierozmoz.be",
+        "canonical": "atelierozmoz.be"
+      },
+      {
+        "raw": "https://www.diemon.com",
+        "canonical": "diemon.com"
+      },
+      {
+        "raw": "https://www.wausauschools.org",
+        "canonical": "wausauschools.org"
+      }
+    ],
+    "phishing": [
+      {
+        "raw": "http://www.soeme.com",
+        "canonical": "soeme.com"
+      },
+      {
+        "raw": "http://www.v2cde1b0d66c767a23cfb34c14552836d3.ws",
+        "canonical": "v2cde1b0d66c767a23cfb34c14552836d3.ws"
+      },
+      {
+        "raw": "https://locateme.co.nz/wp-content/jam/ichiemagiksouthwest123.html",
+        "canonical": "locateme.co.nz/wp-content/jam/ichiemagiksouthwest123.html"
+      }
+    ]
+  }
+}

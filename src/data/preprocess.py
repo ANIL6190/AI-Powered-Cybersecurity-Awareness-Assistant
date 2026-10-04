@@ -516,9 +516,22 @@ def nlp_preprocess(
 
     special_tokens = {"<url>", "<email>", "<phone>", "<amount>", "<otp>"}
 
+    def merge_special_tokens(tokens: List[str]) -> List[str]:
+        # word_tokenize splits "<url>" into "<", "url", ">"; re-join placeholders so they survive.
+        merged, i = [], 0
+        while i < len(tokens):
+            if i + 2 < len(tokens) and tokens[i] == "<" and tokens[i + 2] == ">" \
+                    and f"<{tokens[i + 1].lower()}>" in special_tokens:
+                merged.append(f"<{tokens[i + 1].lower()}>")
+                i += 3
+            else:
+                merged.append(tokens[i])
+                i += 1
+        return merged
+
     def preprocess_sentence(text: str) -> str:
         # Tokenize words
-        tokens = word_tokenize(text)
+        tokens = merge_special_tokens(word_tokenize(text))
         cleaned_tokens = []
         for t in tokens:
             t_lower = t.lower()

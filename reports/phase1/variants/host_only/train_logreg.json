@@ -1,0 +1,25 @@
+{
+  "model": "logreg",
+  "mlflow_run_id": "54f9b76f71da4ead9ddaef1610bbc4a8",
+  "threshold": 0.5,
+  "validation": {
+    "n": 32827,
+    "n_phishing": 12507,
+    "n_legitimate": 20320,
+    "precision": 0.852831560767203,
+    "recall": 0.7501399216438794,
+    "f1": 0.7981963586864046,
+    "accuracy": 0.8554848143296676,
+    "roc_auc": 0.9095897439166352,
+    "pr_auc": 0.9002367551277923,
+    "false_positive_rate": 0.0796751968503937,
+    "false_negative_rate": 0.24986007835612056,
+    "tn": 18701,
+    "fp": 1619,
+    "fn": 3125,
+    "tp": 9382
+  },
+  "train_seconds": 1.58,
+  "n_train": 154465,
+  "n_features": 100000
+}

@@ -1,0 +1,30 @@
+# Phase 1 dependencies (direct), pinned to the versions the pipeline was run and tested with.
+# Python 3.13 (see .python-version). Install into a project-local virtualenv:
+#   python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
+
+# Data and ML
+numpy==2.5.3
+pandas==3.0.6
+scipy==1.18.1
+scikit-learn==1.9.1
+xgboost==3.4.1
+joblib==1.6.0
+tldextract==5.4.0
+
+# Experiment tracking and data versioning
+mlflow==3.16.1
+dvc==3.67.1
+PyYAML==6.0.3
+
+# EDA and reporting
+matplotlib==3.11.2
+jupyter==1.1.1
+nbconvert==7.17.1
+nbformat==5.11.1
+ipykernel==7.4.0
+
+# Legacy Stage 1 module (src/data/preprocess.py) and its tests
+nltk==3.10.3
+
+# Testing
+pytest==9.1.1

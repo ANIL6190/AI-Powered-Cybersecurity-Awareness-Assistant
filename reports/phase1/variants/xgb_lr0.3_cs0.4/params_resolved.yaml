@@ -1,0 +1,84 @@
+# Resolved config for variant 'xgb_lr0.3_cs0.4'. Overrides: ['models.xgboost.learning_rate=0.3', 'models.xgboost.colsample_bytree=0.4']
+base:
+  random_seed: 42
+  log_level: INFO
+task:
+  name: binary_url_phishing
+  include_sms: false
+raw_data:
+  phiusiil_path: data/raw/PhiUSIIL_Phishing_URL_Dataset.csv
+  phishvn_dir: data/raw/phishvn_v3.1.0
+  phishvn_path: data/raw/phishvn_v3.1.0/dataset_url.csv
+  sms_path: data/raw/SMSSpamCollection
+url:
+  representation: canonical_url
+  strip_scheme: true
+  strip_www: true
+  strip_trailing_slash: true
+  min_length: 4
+  include_psl_private_domains: true
+phishvn:
+  tiers:
+  - gold
+  - silver
+  positive_value: phishing
+  negative_value: benign
+  timestamp_column: collected_at
+  timestamp_format: '%d/%m/%Y'
+  attested_date_sources:
+  - tinnhiemmang
+  - tinnhiem_org
+temporal:
+  cutoff_date: '2024-03-08'
+split:
+  train_ratio: 0.7
+  val_ratio: 0.15
+  test_ratio: 0.15
+  group_by: registrable_domain
+validation:
+  max_class_ratio_drift: 0.05
+  min_temporal_rows: 50
+features:
+  tfidf:
+    analyzer: char_wb
+    ngram_range:
+    - 3
+    - 5
+    min_df: 3
+    max_features: 100000
+    sublinear_tf: true
+    lowercase: true
+models:
+  logreg:
+    C: 4.0
+    solver: liblinear
+    max_iter: 2000
+    class_weight: balanced
+  xgboost:
+    n_estimators: 600
+    max_depth: 6
+    learning_rate: 0.3
+    subsample: 0.8
+    colsample_bytree: 0.4
+    max_bin: 32
+    min_child_weight: 1
+    reg_lambda: 1.0
+    tree_method: hist
+    early_stopping_rounds: 30
+    balance_classes: true
+    n_jobs: -1
+evaluation:
+  threshold: 0.5
+mlflow:
+  experiment_name: phase1-url-phishing
+  variant: xgb_lr0.3_cs0.4
+  tracking_uri_env: MLFLOW_TRACKING_URI
+  default_tracking_uri: sqlite:///mlflow.db
+  local_artifact_root: mlartifacts
+  log_models: true
+  model_serialization: cloudpickle
+output:
+  processed_dir: data/processed/phase1/variants/xgb_lr0.3_cs0.4
+  features_dir: data/processed/phase1/variants/xgb_lr0.3_cs0.4/features
+  models_dir: models/variants/xgb_lr0.3_cs0.4
+  reports_dir: reports/phase1/variants/xgb_lr0.3_cs0.4

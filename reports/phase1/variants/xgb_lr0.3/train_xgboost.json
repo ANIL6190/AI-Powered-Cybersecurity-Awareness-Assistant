@@ -1,0 +1,27 @@
+{
+  "model": "xgboost",
+  "mlflow_run_id": "e85102316aac449488b3e41dc5cb1a53",
+  "threshold": 0.5,
+  "validation": {
+    "n": 34157,
+    "n_phishing": 13835,
+    "n_legitimate": 20322,
+    "precision": 0.9364007816663705,
+    "recall": 0.7619804842790026,
+    "f1": 0.8402343282987287,
+    "accuracy": 0.8826302075709225,
+    "roc_auc": 0.9313806515249052,
+    "pr_auc": 0.9308634305741663,
+    "false_positive_rate": 0.03523275268182265,
+    "false_negative_rate": 0.23801951572099747,
+    "tn": 19606,
+    "fp": 716,
+    "fn": 3293,
+    "tp": 10542
+  },
+  "train_seconds": 74.12,
+  "n_train": 164113,
+  "n_features": 100000,
+  "best_iteration": 579,
+  "scale_pos_weight": 1.364093403823161
+}

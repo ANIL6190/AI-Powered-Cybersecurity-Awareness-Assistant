@@ -1,0 +1,67 @@
+schema: '2.0'
+stages:
+  preprocess:
+    cmd: python3 -m src.data.preprocess --config params.yaml
+    deps:
+    - path: PhiUSIIL_Phishing_URL_Dataset.csv
+      hash: md5
+      md5: 769ba530b3629c4c2f9896abf642aefa
+      size: 56854345
+    - path: SMSSpamCollection
+      hash: md5
+      md5: 1949b64a224790d01335c2bf8a0e48b2
+      size: 477907
+    - path: src/data/preprocess.py
+      hash: md5
+      md5: bd9ae9d77addffa3ae195dd3e3a57c7b
+      size: 45115
+    - path: verified_online.csv
+      hash: md5
+      md5: 23d189566ef121c4e37bc04f7759b6fc
+      size: 14522492
+    params:
+      params.yaml:
+        base.random_seed: 42
+        cleaning.deduplicate_cross_dataset: true
+        cleaning.min_text_length: 3
+        cleaning.remove_corrupted: true
+        features.sequence.max_sequence_length: 100
+        features.sequence.max_vocab_size: 10000
+        features.tfidf.max_features: 5000
+        imbalance.strategy: class_weights
+        split.test_ratio: 0.15
+        split.train_ratio: 0.7
+        split.val_ratio: 0.15
+    outs:
+    - path: data/processed/test.csv
+      hash: md5
+      md5: 107a2a3d491d7f0153d4c4a053c594d0
+      size: 4273566
+    - path: data/processed/tfidf_vectorizer.pkl
+      hash: md5
+      md5: 01c5a1ab328dd01003b9d6627bf86874
+      size: 186012
+    - path: data/processed/tokenizer.json
+      hash: md5
+      md5: 9c69327d18c185106e13fec7070abff6
+      size: 107231
+    - path: data/processed/train.csv
+      hash: md5
+      md5: bb2e2d1dda0c0cbf1d2043ee39731cd5
+      size: 19813591
+    - path: data/processed/val.csv
+      hash: md5
+      md5: f21467d5a5566300bda8873a9d5356f0
+      size: 4233878
+    - path: reports/cleaning_comparison.json
+      hash: md5
+      md5: efc30051e8b00678d2135df2e57ee4bf
+      size: 670
+    - path: reports/raw_data_profile.html
+      hash: md5
+      md5: 31c78c77106d8b29ff359b1b08d0fbfe
+      size: 910997
+    - path: reports/raw_data_profile.json
+      hash: md5
+      md5: e371955bc33268e3d3a561e9133c2a7b
+      size: 862

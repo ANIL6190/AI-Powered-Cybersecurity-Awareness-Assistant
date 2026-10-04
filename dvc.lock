@@ -1,67 +1,437 @@
 schema: '2.0'
 stages:
-  preprocess:
-    cmd: python3 -m src.data.preprocess --config params.yaml
+  prepare:
+    cmd: python -m src.data.make_dataset --config params.yaml
     deps:
-    - path: PhiUSIIL_Phishing_URL_Dataset.csv
+    - path: data/raw/PhiUSIIL_Phishing_URL_Dataset.csv
       hash: md5
-      md5: 769ba530b3629c4c2f9896abf642aefa
-      size: 56854345
-    - path: SMSSpamCollection
+      md5: f3c27559e55c6c104e4d83857f0e7608
+      size: 54160642
+    - path: data/raw/phishvn_v3.1.0
       hash: md5
-      md5: 1949b64a224790d01335c2bf8a0e48b2
-      size: 477907
-    - path: src/data/preprocess.py
+      md5: 4e866d624edb77ea1e9c20ebb1187055.dir
+      size: 12371628
+      nfiles: 9
+    - path: src/data/make_dataset.py
       hash: md5
-      md5: bd9ae9d77addffa3ae195dd3e3a57c7b
-      size: 45115
-    - path: verified_online.csv
+      md5: 8ffa963eac508d2c8301ab827df2f906
+      size: 14240
+    - path: src/utils/config.py
       hash: md5
-      md5: 23d189566ef121c4e37bc04f7759b6fc
-      size: 14522492
+      md5: 5aadcb984fce461180cef22137d23fcf
+      size: 1542
+    - path: src/utils/urls.py
+      hash: md5
+      md5: b945ef07aceebf7f0e63312a9d2daa0b
+      size: 3975
     params:
       params.yaml:
         base.random_seed: 42
-        cleaning.deduplicate_cross_dataset: true
-        cleaning.min_text_length: 3
-        cleaning.remove_corrupted: true
-        features.sequence.max_sequence_length: 100
-        features.sequence.max_vocab_size: 10000
-        features.tfidf.max_features: 5000
-        imbalance.strategy: class_weights
-        split.test_ratio: 0.15
-        split.train_ratio: 0.7
-        split.val_ratio: 0.15
+        output.processed_dir: data/processed/phase1
+        phishvn:
+          tiers:
+          - gold
+          - silver
+          positive_value: phishing
+          negative_value: benign
+          timestamp_column: collected_at
+          timestamp_format: '%d/%m/%Y'
+          attested_date_sources:
+          - tinnhiemmang
+          - tinnhiem_org
+        raw_data:
+          phiusiil_path: data/raw/PhiUSIIL_Phishing_URL_Dataset.csv
+          phishvn_dir: data/raw/phishvn_v3.1.0
+          phishvn_path: data/raw/phishvn_v3.1.0/dataset_url.csv
+          sms_path: data/raw/SMSSpamCollection
+        split:
+          train_ratio: 0.7
+          val_ratio: 0.15
+          test_ratio: 0.15
+          group_by: registrable_domain
+        task:
+          name: binary_url_phishing
+          include_sms: false
+        temporal:
+          cutoff_date: '2024-03-08'
+        url:
+          representation: canonical_url
+          strip_scheme: true
+          strip_www: true
+          strip_trailing_slash: true
+          min_length: 4
+          include_psl_private_domains: true
     outs:
-    - path: data/processed/test.csv
+    - path: data/processed/phase1/shift_test.csv
       hash: md5
-      md5: 107a2a3d491d7f0153d4c4a053c594d0
-      size: 4273566
-    - path: data/processed/tfidf_vectorizer.pkl
+      md5: 5b31f769843973554dc5df48dcf004ca
+      size: 1910187
+    - path: data/processed/phase1/temporal_test.csv
       hash: md5
-      md5: 01c5a1ab328dd01003b9d6627bf86874
-      size: 186012
-    - path: data/processed/tokenizer.json
+      md5: e4f0f9ec7d1fe9c06c734dca4ee096e2
+      size: 106202
+    - path: data/processed/phase1/test.csv
       hash: md5
-      md5: 9c69327d18c185106e13fec7070abff6
-      size: 107231
-    - path: data/processed/train.csv
+      md5: 35b31c499d583abe3ff1eac572c6eae2
+      size: 3924654
+    - path: data/processed/phase1/train.csv
       hash: md5
-      md5: bb2e2d1dda0c0cbf1d2043ee39731cd5
-      size: 19813591
-    - path: data/processed/val.csv
+      md5: 3ee3ab6a99b72d60e7b839f71a47bb09
+      size: 19597693
+    - path: data/processed/phase1/val.csv
       hash: md5
-      md5: f21467d5a5566300bda8873a9d5356f0
-      size: 4233878
-    - path: reports/cleaning_comparison.json
+      md5: 05ee992d83a8f2a1d058ac444163431a
+      size: 3906452
+    - path: reports/phase1/prepare_summary.json
       hash: md5
-      md5: efc30051e8b00678d2135df2e57ee4bf
-      size: 670
-    - path: reports/raw_data_profile.html
+      md5: b61447bf4183994e86d29aa4b1d6e45c
+      size: 2497
+  validate:
+    cmd: python -m src.data.validate --config params.yaml
+    deps:
+    - path: data/processed/phase1/shift_test.csv
       hash: md5
-      md5: 31c78c77106d8b29ff359b1b08d0fbfe
-      size: 910997
-    - path: reports/raw_data_profile.json
+      md5: 5b31f769843973554dc5df48dcf004ca
+      size: 1910187
+    - path: data/processed/phase1/temporal_test.csv
       hash: md5
-      md5: e371955bc33268e3d3a561e9133c2a7b
-      size: 862
+      md5: e4f0f9ec7d1fe9c06c734dca4ee096e2
+      size: 106202
+    - path: data/processed/phase1/test.csv
+      hash: md5
+      md5: 35b31c499d583abe3ff1eac572c6eae2
+      size: 3924654
+    - path: data/processed/phase1/train.csv
+      hash: md5
+      md5: 3ee3ab6a99b72d60e7b839f71a47bb09
+      size: 19597693
+    - path: data/processed/phase1/val.csv
+      hash: md5
+      md5: 05ee992d83a8f2a1d058ac444163431a
+      size: 3906452
+    - path: src/data/validate.py
+      hash: md5
+      md5: 544028e02e9ba5d5a7e4b25abed5f134
+      size: 7779
+    params:
+      params.yaml:
+        phishvn.attested_date_sources:
+        - tinnhiemmang
+        - tinnhiem_org
+        task.include_sms: false
+        temporal.cutoff_date: '2024-03-08'
+        validation:
+          max_class_ratio_drift: 0.05
+          min_temporal_rows: 50
+    outs:
+    - path: reports/phase1/validation.json
+      hash: md5
+      md5: cdfd616799afd2764a63f278c392e1fb
+      size: 9087
+  eda:
+    cmd: python -m src.eda.run_eda --config params.yaml
+    deps:
+    - path: data/processed/phase1/shift_test.csv
+      hash: md5
+      md5: 5b31f769843973554dc5df48dcf004ca
+      size: 1910187
+    - path: data/processed/phase1/temporal_test.csv
+      hash: md5
+      md5: e4f0f9ec7d1fe9c06c734dca4ee096e2
+      size: 106202
+    - path: data/processed/phase1/test.csv
+      hash: md5
+      md5: 35b31c499d583abe3ff1eac572c6eae2
+      size: 3924654
+    - path: data/processed/phase1/train.csv
+      hash: md5
+      md5: 3ee3ab6a99b72d60e7b839f71a47bb09
+      size: 19597693
+    - path: data/processed/phase1/val.csv
+      hash: md5
+      md5: 05ee992d83a8f2a1d058ac444163431a
+      size: 3906452
+    - path: data/raw/PhiUSIIL_Phishing_URL_Dataset.csv
+      hash: md5
+      md5: f3c27559e55c6c104e4d83857f0e7608
+      size: 54160642
+    - path: data/raw/phishvn_v3.1.0
+      hash: md5
+      md5: 4e866d624edb77ea1e9c20ebb1187055.dir
+      size: 12371628
+      nfiles: 9
+    - path: reports/phase1/prepare_summary.json
+      hash: md5
+      md5: b61447bf4183994e86d29aa4b1d6e45c
+      size: 2497
+    - path: src/eda/run_eda.py
+      hash: md5
+      md5: 9cf0178a421b209a92b77bd848fe8133
+      size: 12504
+    params:
+      params.yaml:
+        base.random_seed: 42
+        phishvn:
+          tiers:
+          - gold
+          - silver
+          positive_value: phishing
+          negative_value: benign
+          timestamp_column: collected_at
+          timestamp_format: '%d/%m/%Y'
+          attested_date_sources:
+          - tinnhiemmang
+          - tinnhiem_org
+        temporal.cutoff_date: '2024-03-08'
+    outs:
+    - path: reports/phase1/eda
+      hash: md5
+      md5: 155097b926fd52e9c07bd4a48155111c.dir
+      size: 292061
+      nfiles: 8
+    - path: reports/phase1/eda_summary.json
+      hash: md5
+      md5: ae9c65d452160f4f88990809b710b7a0
+      size: 10558
+  featurize:
+    cmd: python -m src.features.build_features --config params.yaml
+    deps:
+    - path: data/processed/phase1/shift_test.csv
+      hash: md5
+      md5: 5b31f769843973554dc5df48dcf004ca
+      size: 1910187
+    - path: data/processed/phase1/temporal_test.csv
+      hash: md5
+      md5: e4f0f9ec7d1fe9c06c734dca4ee096e2
+      size: 106202
+    - path: data/processed/phase1/test.csv
+      hash: md5
+      md5: 35b31c499d583abe3ff1eac572c6eae2
+      size: 3924654
+    - path: data/processed/phase1/train.csv
+      hash: md5
+      md5: 3ee3ab6a99b72d60e7b839f71a47bb09
+      size: 19597693
+    - path: data/processed/phase1/val.csv
+      hash: md5
+      md5: 05ee992d83a8f2a1d058ac444163431a
+      size: 3906452
+    - path: reports/phase1/validation.json
+      hash: md5
+      md5: cdfd616799afd2764a63f278c392e1fb
+      size: 9087
+    - path: src/features/build_features.py
+      hash: md5
+      md5: 980ee1381482d585d9c5b31b6d430f89
+      size: 3241
+    params:
+      params.yaml:
+        features.tfidf:
+          analyzer: char_wb
+          ngram_range:
+          - 3
+          - 5
+          min_df: 3
+          max_features: 100000
+          sublinear_tf: true
+          lowercase: true
+    outs:
+    - path: data/processed/phase1/features
+      hash: md5
+      md5: 18082cf11420be2248d221318f5eea9b.dir
+      size: 62187355
+      nfiles: 10
+    - path: models/tfidf_vectorizer.joblib
+      hash: md5
+      md5: 0eabf95ebf67f0b669de74b563f663e4
+      size: 3000232
+    - path: reports/phase1/features_summary.json
+      hash: md5
+      md5: 98d14e8b43301a5a52a76cfa595b03ad
+      size: 515
+  train_logreg:
+    cmd: python -m src.models.train --config params.yaml --model logreg
+    deps:
+    - path: data/processed/phase1/features
+      hash: md5
+      md5: 18082cf11420be2248d221318f5eea9b.dir
+      size: 62187355
+      nfiles: 10
+    - path: models/tfidf_vectorizer.joblib
+      hash: md5
+      md5: 0eabf95ebf67f0b669de74b563f663e4
+      size: 3000232
+    - path: src/models/metrics.py
+      hash: md5
+      md5: b7dec7c5ebf4ae9098ff9a7e35a684d1
+      size: 4032
+    - path: src/models/train.py
+      hash: md5
+      md5: 3abe1403437185ed4ba444bed4c68b46
+      size: 10543
+    - path: src/utils/tracking.py
+      hash: md5
+      md5: fca85370fc90a24d281c54ace29c1a04
+      size: 4138
+    params:
+      params.yaml:
+        base.random_seed: 42
+        evaluation.threshold: 0.5
+        mlflow:
+          experiment_name: phase1-url-phishing
+          variant: main
+          tracking_uri_env: MLFLOW_TRACKING_URI
+          default_tracking_uri: sqlite:///mlflow.db
+          local_artifact_root: mlartifacts
+          log_models: true
+          model_serialization: cloudpickle
+        models.logreg:
+          C: 4.0
+          solver: liblinear
+          max_iter: 2000
+          class_weight: balanced
+    outs:
+    - path: models/logreg.joblib
+      hash: md5
+      md5: 2e1f50afcd24ad6f38b6c5efefabb37a
+      size: 800891
+    - path: reports/phase1/train_logreg.json
+      hash: md5
+      md5: 6857e65013ae557bc3997e061af53ddc
+      size: 627
+  train_xgboost:
+    cmd: python -m src.models.train --config params.yaml --model xgboost
+    deps:
+    - path: data/processed/phase1/features
+      hash: md5
+      md5: 18082cf11420be2248d221318f5eea9b.dir
+      size: 62187355
+      nfiles: 10
+    - path: models/tfidf_vectorizer.joblib
+      hash: md5
+      md5: 0eabf95ebf67f0b669de74b563f663e4
+      size: 3000232
+    - path: src/models/metrics.py
+      hash: md5
+      md5: b7dec7c5ebf4ae9098ff9a7e35a684d1
+      size: 4032
+    - path: src/models/train.py
+      hash: md5
+      md5: 3abe1403437185ed4ba444bed4c68b46
+      size: 10543
+    - path: src/utils/tracking.py
+      hash: md5
+      md5: fca85370fc90a24d281c54ace29c1a04
+      size: 4138
+    params:
+      params.yaml:
+        base.random_seed: 42
+        evaluation.threshold: 0.5
+        mlflow:
+          experiment_name: phase1-url-phishing
+          variant: main
+          tracking_uri_env: MLFLOW_TRACKING_URI
+          default_tracking_uri: sqlite:///mlflow.db
+          local_artifact_root: mlartifacts
+          log_models: true
+          model_serialization: cloudpickle
+        models.xgboost:
+          n_estimators: 600
+          max_depth: 10
+          learning_rate: 0.3
+          subsample: 0.8
+          colsample_bytree: 0.2
+          max_bin: 32
+          min_child_weight: 1
+          reg_lambda: 1.0
+          tree_method: hist
+          early_stopping_rounds: 30
+          balance_classes: true
+          n_jobs: -1
+    outs:
+    - path: models/xgboost.joblib
+      hash: md5
+      md5: a5d328e223caedf4ed0328c5b8b53e3d
+      size: 1488638
+    - path: reports/phase1/train_xgboost.json
+      hash: md5
+      md5: 4265a32dc4fbed65a5552e1db666dfd6
+      size: 694
+  evaluate:
+    cmd: python -m src.models.evaluate --config params.yaml
+    deps:
+    - path: data/processed/phase1/features
+      hash: md5
+      md5: 18082cf11420be2248d221318f5eea9b.dir
+      size: 62187355
+      nfiles: 10
+    - path: data/processed/phase1/shift_test.csv
+      hash: md5
+      md5: 5b31f769843973554dc5df48dcf004ca
+      size: 1910187
+    - path: data/processed/phase1/temporal_test.csv
+      hash: md5
+      md5: e4f0f9ec7d1fe9c06c734dca4ee096e2
+      size: 106202
+    - path: data/processed/phase1/test.csv
+      hash: md5
+      md5: 35b31c499d583abe3ff1eac572c6eae2
+      size: 3924654
+    - path: models/logreg.joblib
+      hash: md5
+      md5: 2e1f50afcd24ad6f38b6c5efefabb37a
+      size: 800891
+    - path: models/xgboost.joblib
+      hash: md5
+      md5: a5d328e223caedf4ed0328c5b8b53e3d
+      size: 1488638
+    - path: reports/phase1/train_logreg.json
+      hash: md5
+      md5: 6857e65013ae557bc3997e061af53ddc
+      size: 627
+    - path: reports/phase1/train_xgboost.json
+      hash: md5
+      md5: 4265a32dc4fbed65a5552e1db666dfd6
+      size: 694
+    - path: src/models/evaluate.py
+      hash: md5
+      md5: 24e6e05889e750b631acff49f716d3a1
+      size: 16099
+    - path: src/models/metrics.py
+      hash: md5
+      md5: b7dec7c5ebf4ae9098ff9a7e35a684d1
+      size: 4032
+    - path: src/utils/tracking.py
+      hash: md5
+      md5: fca85370fc90a24d281c54ace29c1a04
+      size: 4138
+    params:
+      params.yaml:
+        evaluation.threshold: 0.5
+        mlflow:
+          experiment_name: phase1-url-phishing
+          variant: main
+          tracking_uri_env: MLFLOW_TRACKING_URI
+          default_tracking_uri: sqlite:///mlflow.db
+          local_artifact_root: mlartifacts
+          log_models: true
+          model_serialization: cloudpickle
+        phishvn.attested_date_sources:
+        - tinnhiemmang
+        - tinnhiem_org
+        temporal.cutoff_date: '2024-03-08'
+        url.representation: canonical_url
+    outs:
+    - path: reports/phase1/metrics.json
+      hash: md5
+      md5: 5affadaa0f8d7422b86d52f27d7661ee
+      size: 11499
+    - path: reports/phase1/model_comparison.md
+      hash: md5
+      md5: 3eab0ee89ba6ac4634bb8513457be053
+      size: 2788
+    - path: reports/phase1/plots
+      hash: md5
+      md5: 8b870ed66a06aa217a96d97a4b7a11a5.dir
+      size: 216840
+      nfiles: 6

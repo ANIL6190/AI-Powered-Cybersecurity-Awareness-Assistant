@@ -1,10 +1,34 @@
 # Stage 1: Data Cleaning & Preprocessing Report
 **Project:** AI-Powered Cybersecurity Awareness Assistant  
-**Pipeline File:** [`src/data/preprocess.py`](file:///home/anil_a/AI-Powered-Cybersecurity-Awareness-Assistant/src/data/preprocess.py)  
-**Pipeline Configuration:** [`params.yaml`](file:///home/anil_a/AI-Powered-Cybersecurity-Awareness-Assistant/params.yaml)  
-**DVC Pipeline:** [`dvc.yaml`](file:///home/anil_a/AI-Powered-Cybersecurity-Awareness-Assistant/dvc.yaml) & [`dvc.lock`](file:///home/anil_a/AI-Powered-Cybersecurity-Awareness-Assistant/dvc.lock)  
-**Test Suite:** [`tests/test_preprocess.py`](file:///home/anil_a/AI-Powered-Cybersecurity-Awareness-Assistant/tests/test_preprocess.py)  
-**Status:** ✅ Fully Implemented, Tested, DVC-Versioned, and Reproducible  
+**Pipeline File:** [`src/data/preprocess.py`](src/data/preprocess.py)  
+**Pipeline Configuration:** [`params.yaml`](archive/legacy_stage1_params.yaml)  
+**DVC Pipeline:** [`dvc.yaml`](archive/legacy_stage1_dvc.yaml) & [`dvc.lock`](archive/legacy_stage1_dvc.lock)  
+**Test Suite:** [`tests/test_preprocess.py`](tests/test_preprocess.py)  
+**Status:** Legacy, superseded by the Phase 1 pipeline (see banner below)  
+
+> **⚠️ Legacy Stage 1 report (superseded).** This report describes the original 3-class
+> (phishing / spam / legit) preprocessing pipeline. It is kept for traceability. The project now uses
+> the Phase 1 binary URL pipeline described in [`README.md`](README.md),
+> [`docs/DATASETS.md`](docs/DATASETS.md) and [`docs/EVALUATION_METHODOLOGY.md`](docs/EVALUATION_METHODOLOGY.md).
+> The legacy pipeline definition is preserved in [`archive/`](archive/README.md).
+>
+> **Corrections recorded during the Phase 1 inspection (2026-10-04):**
+> 1. **URL rows lost all information.** Step 5 replaced every URL with `<URL>`, and NLTK then split it
+>    into `<`, `url`, `>`, so `processed_text` was the single word `url` for ~309k of 314k rows. The
+>    TF-IDF features below therefore carried no URL signal. (The placeholder-tokenization part is fixed
+>    in `src/data/preprocess.py`; Phase 1 does not route URLs through this code.)
+> 2. **"Zero data leakage" was overstated.** Overlap was checked on raw text only. After processing, many
+>    rows shared identical model input across splits, there was no registrable-domain grouping, and the
+>    random split mixed sources and time periods.
+> 3. **The 3-class task was confounded by input type.** `spam` existed only in SMS and `phishing` only
+>    in URLs (and spam was 0.2% of rows).
+> 4. **"Reproducible" was overstated.** There was no DVC remote, no dependency file, and NLTK data was a
+>    manual step.
+> 5. The PhishTank `verified_online.csv` snapshot used here is not available to the team; PhishVN
+>    replaces it in Phase 1. The PhiUSIIL copy used here has different bytes from the Kaggle download used
+>    in Phase 1 (same rows and header).
+>
+> The numbers below are reproduced as originally reported and have not been re-verified.
 
 ---
 
@@ -13,7 +37,7 @@
 | Checklist Item | Requirement | Status | Verification Detail |
 |:---|:---|:---:|:---|
 | **Unified Schema & Labels** | `text \| type \| label \| source`; labels: `phishing`, `spam`, `legit` | ✅ Passed | PhiUSIIL (1=legit, 0=phish), SMS (ham=legit, spam=spam), PhishTank (phishing) |
-| **Raw Profiling Report** | ydata-profiling HTML + JSON summary before changes | ✅ Passed | Saved to [`reports/raw_data_profile.html`](file:///home/anil_a/AI-Powered-Cybersecurity-Awareness-Assistant/reports/raw_data_profile.html) & [`reports/raw_data_profile.json`](file:///home/anil_a/AI-Powered-Cybersecurity-Awareness-Assistant/reports/raw_data_profile.json) |
+| **Raw Profiling Report** | ydata-profiling HTML + JSON summary before changes | ✅ Passed | Saved to [`reports/raw_data_profile.html`](reports/raw_data_profile.html) & [`reports/raw_data_profile.json`](reports/raw_data_profile.json) |
 | **Nulls & Bad Rows Removed** | Drop null text/label, text < 3 chars, corrupted/binary junk | ✅ Passed | 5 invalid short rows removed, 0 nulls remain |
 | **Duplicates Removed** | Exact & near-duplicates, cross-dataset deduplication | ✅ Passed | 3,292 duplicate instances removed across entire unified corpus |
 | **Text Cleaned with Tokens** | Replace `<URL>`, `<PHONE>`, `<EMAIL>`, `<AMOUNT>`, `<OTP>` | ✅ Passed | Privacy-compliant tokens, repeated chars collapsed (`freeee!!!` → `free!`), signals kept |
@@ -28,7 +52,7 @@
 
 ## 1. Executive Summary & Metrics Comparison
 
-The end-to-end preprocessing pipeline orchestrates all 11 stages as modular, deterministic functions in [`src/data/preprocess.py`](file:///home/anil_a/AI-Powered-Cybersecurity-Awareness-Assistant/src/data/preprocess.py). The pipeline processes 317,350 raw samples into 314,053 pristine, normalized records with zero train/test leakage.
+The end-to-end preprocessing pipeline orchestrates all 11 stages as modular, deterministic functions in [`src/data/preprocess.py`](src/data/preprocess.py). The pipeline processes 317,350 raw samples into 314,053 normalized records with zero exact raw-text overlap between train and test (see correction 2 above).
 
 ### Before vs. After Cleaning Statistics
 
@@ -43,7 +67,7 @@ The end-to-end preprocessing pipeline orchestrates all 11 stages as modular, det
 | **Train Set Rows (70%)** | — | **219,837** | Stratified by class label |
 | **Validation Set Rows (15%)** | — | **47,108** | Natural evaluation distribution |
 | **Test Set Rows (15%)** | — | **47,108** | Natural evaluation distribution |
-| **Train/Test Data Overlap** | — | **0** (0.00%) | **Zero data leakage guaranteed** |
+| **Train/Test Data Overlap** | — | **0** (0.00%) | No exact raw-text overlap (domain-level and processed-text overlap not checked) |
 | **TF-IDF Vocabulary Size** | — | **4,920** features | Fitted strictly on training set |
 | **Tokenizer Vocabulary Size** | — | **5,465** words | Serialized to `tokenizer.json` |
 
@@ -62,8 +86,8 @@ The end-to-end preprocessing pipeline orchestrates all 11 stages as modular, det
 
 ### Step 2: Raw Data Quality Profiling (`profile_raw_data`)
 - Generated pre-cleaning profiling using `ydata-profiling` to evaluate missing values, duplicate rates, class distributions, and token lengths.
-- Saved interactive visualization to [`reports/raw_data_profile.html`](file:///home/anil_a/AI-Powered-Cybersecurity-Awareness-Assistant/reports/raw_data_profile.html).
-- Exported machine-readable summary to [`reports/raw_data_profile.json`](file:///home/anil_a/AI-Powered-Cybersecurity-Awareness-Assistant/reports/raw_data_profile.json) for presentation and audit logging.
+- Saved interactive visualization to [`reports/raw_data_profile.html`](reports/raw_data_profile.html).
+- Exported machine-readable summary to [`reports/raw_data_profile.json`](reports/raw_data_profile.json) for presentation and audit logging.
 
 ### Step 3: Missing and Bad Row Handling (`handle_missing_and_bad_rows`)
 - Eliminated empty strings and null entries.
@@ -116,7 +140,7 @@ The end-to-end preprocessing pipeline orchestrates all 11 stages as modular, det
 - **Strict Isolation Rule:** Resampling and class weighting are applied **strictly to the training set only**. Validation and test folds maintain natural real-world distributions.
 
 ### Step 9: Stratified Train / Validation / Test Splitting (`split_data`)
-- Split configured via [`params.yaml`](file:///home/anil_a/AI-Powered-Cybersecurity-Awareness-Assistant/params.yaml) with fixed random seed `42`:
+- Split configured via [`params.yaml`](archive/legacy_stage1_params.yaml) with fixed random seed `42`:
   - **Train Set (70%):** 219,837 rows
   - **Validation Set (15%):** 47,108 rows
   - **Test Set (15%):** 47,108 rows
@@ -124,9 +148,9 @@ The end-to-end preprocessing pipeline orchestrates all 11 stages as modular, det
 - Splitting was performed **before** fitting vectorizers or tokenizers. Zero text overlap between train and test/val was verified programmatically.
 
 ### Step 10: Feature Preparation (`prepare_features`)
-- **Baseline Models:** Fitted `TfidfVectorizer` (max features: 5,000, n-gram range: (1, 2), min_df: 2) **only** on the training set. Serialized vectorizer to [`data/processed/tfidf_vectorizer.pkl`](file:///home/anil_a/AI-Powered-Cybersecurity-Awareness-Assistant/data/processed/tfidf_vectorizer.pkl).
+- **Baseline Models:** Fitted `TfidfVectorizer` (max features: 5,000, n-gram range: (1, 2), min_df: 2) **only** on the training set. Serialized vectorizer to [`data/processed/tfidf_vectorizer.pkl`](data/processed/tfidf_vectorizer.pkl).
 - **Deep Learning Models (BiLSTM / GRU):** Fitted sequence tokenizer on training text, converted text to padded integer sequences (`max_sequence_length: 100`), and exported:
-  - [`data/processed/tokenizer.json`](file:///home/anil_a/AI-Powered-Cybersecurity-Awareness-Assistant/data/processed/tokenizer.json) (5,465 vocabulary items, Keras-compatible).
+  - [`data/processed/tokenizer.json`](data/processed/tokenizer.json) (5,465 vocabulary items, Keras-compatible).
   - Sequence arrays: `train_sequences.npy`, `val_sequences.npy`, `test_sequences.npy`.
   - Processed CSV splits: `train.csv`, `val.csv`, `test.csv`.
 
@@ -135,15 +159,15 @@ The end-to-end preprocessing pipeline orchestrates all 11 stages as modular, det
   - 0 null values in `text`, `processed_text`, `label`, or `type`.
   - All labels belong to `{'phishing', 'spam', 'legit'}`.
   - Exactly 0 samples overlapping between training and test sets.
-- Generated comparison report: [`reports/cleaning_comparison.json`](file:///home/anil_a/AI-Powered-Cybersecurity-Awareness-Assistant/reports/cleaning_comparison.json).
-- Generated cleaned data profiling HTML: [`reports/cleaned_data_profile.html`](file:///home/anil_a/AI-Powered-Cybersecurity-Awareness-Assistant/reports/cleaned_data_profile.html).
-- Registered DVC stage `preprocess` in [`dvc.yaml`](file:///home/anil_a/AI-Powered-Cybersecurity-Awareness-Assistant/dvc.yaml) with parameters tracked in [`params.yaml`](file:///home/anil_a/AI-Powered-Cybersecurity-Awareness-Assistant/params.yaml) and locked in [`dvc.lock`](file:///home/anil_a/AI-Powered-Cybersecurity-Awareness-Assistant/dvc.lock).
+- Generated comparison report: [`reports/cleaning_comparison.json`](reports/cleaning_comparison.json).
+- Generated cleaned data profiling HTML: [`reports/cleaned_data_profile.html`](reports/cleaned_data_profile.html).
+- Registered DVC stage `preprocess` in [`dvc.yaml`](archive/legacy_stage1_dvc.yaml) with parameters tracked in [`params.yaml`](archive/legacy_stage1_params.yaml) and locked in [`dvc.lock`](archive/legacy_stage1_dvc.lock).
 
 ---
 
 ## 3. Automated Test Suite Results
 
-The automated PyTest suite in [`tests/test_preprocess.py`](file:///home/anil_a/AI-Powered-Cybersecurity-Awareness-Assistant/tests/test_preprocess.py) tests all cleaning rules and boundary conditions:
+The automated PyTest suite in [`tests/test_preprocess.py`](tests/test_preprocess.py) tests all cleaning rules and boundary conditions:
 
 ```bash
 $ python3 -m pytest tests/ -v

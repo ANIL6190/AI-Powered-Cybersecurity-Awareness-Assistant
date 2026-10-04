@@ -60,5 +60,23 @@ data/processed/*.pkl
 data/processed/*.npy
 data/processed/*.json
 
-# Reports (not pushed)
-reports/
+# Reports: legacy Stage 1 reports are not pushed. Phase 1 small reports (metrics, validation,
+# summaries, plots) stay Git-trackable; DVC-cached outputs inside reports/phase1 are ignored by
+# the .gitignore files DVC writes next to them.
+reports/*
+!reports/phase1/
+
+# Phase 1 data and model artefacts (DVC outputs; DVC also writes per-directory .gitignore files)
+data/raw/*
+!data/raw/*.dvc
+!data/raw/.gitignore
+data/processed/phase1/
+/models/
+
+# MLflow local tracking store (Phase 1 default: sqlite:///mlflow.db + ./mlartifacts)
+mlflow.db
+mlruns/
+mlartifacts/
+
+# Jupyter
+.ipynb_checkpoints/

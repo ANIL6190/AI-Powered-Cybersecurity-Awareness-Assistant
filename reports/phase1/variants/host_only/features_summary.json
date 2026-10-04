@@ -1,0 +1,31 @@
+{
+  "vocabulary_size": 100000,
+  "fitted_on": "train",
+  "splits": {
+    "train": {
+      "rows": 154465,
+      "nnz": 6373377,
+      "empty_rows": 0
+    },
+    "val": {
+      "rows": 32827,
+      "nnz": 1328571,
+      "empty_rows": 0
+    },
+    "test": {
+      "rows": 31735,
+      "nnz": 1261937,
+      "empty_rows": 0
+    },
+    "shift_test": {
+      "rows": 17874,
+      "nnz": 600270,
+      "empty_rows": 0
+    },
+    "temporal_test": {
+      "rows": 774,
+      "nnz": 32054,
+      "empty_rows": 0
+    }
+  }
+}

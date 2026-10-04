@@ -1,0 +1,504 @@
+{
+  "status": "PASSED",
+  "checks_total": 65,
+  "checks_failed": 0,
+  "rows": {
+    "train": 164113,
+    "val": 34157,
+    "test": 33476,
+    "shift_test": 17902,
+    "temporal_test": 774
+  },
+  "checks": [
+    {
+      "check": "train.schema",
+      "passed": true,
+      "detail": {
+        "missing_columns": []
+      }
+    },
+    {
+      "check": "train.non_empty",
+      "passed": true,
+      "detail": {
+        "rows": 164113
+      }
+    },
+    {
+      "check": "train.labels_binary",
+      "passed": true,
+      "detail": {
+        "labels": [
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "check": "train.label_name_consistent",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "train.no_empty_model_text",
+      "passed": true,
+      "detail": {
+        "empty": 0
+      }
+    },
+    {
+      "check": "train.no_empty_group_key",
+      "passed": true,
+      "detail": {
+        "empty": 0
+      }
+    },
+    {
+      "check": "train.no_duplicate_model_text",
+      "passed": true,
+      "detail": {
+        "duplicates": 0
+      }
+    },
+    {
+      "check": "train.no_label_conflicts",
+      "passed": true,
+      "detail": {
+        "conflicting_texts": 0
+      }
+    },
+    {
+      "check": "train.both_classes_present",
+      "passed": true,
+      "detail": {
+        "classes": [
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "check": "val.schema",
+      "passed": true,
+      "detail": {
+        "missing_columns": []
+      }
+    },
+    {
+      "check": "val.non_empty",
+      "passed": true,
+      "detail": {
+        "rows": 34157
+      }
+    },
+    {
+      "check": "val.labels_binary",
+      "passed": true,
+      "detail": {
+        "labels": [
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "check": "val.label_name_consistent",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "val.no_empty_model_text",
+      "passed": true,
+      "detail": {
+        "empty": 0
+      }
+    },
+    {
+      "check": "val.no_empty_group_key",
+      "passed": true,
+      "detail": {
+        "empty": 0
+      }
+    },
+    {
+      "check": "val.no_duplicate_model_text",
+      "passed": true,
+      "detail": {
+        "duplicates": 0
+      }
+    },
+    {
+      "check": "val.no_label_conflicts",
+      "passed": true,
+      "detail": {
+        "conflicting_texts": 0
+      }
+    },
+    {
+      "check": "val.both_classes_present",
+      "passed": true,
+      "detail": {
+        "classes": [
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "check": "test.schema",
+      "passed": true,
+      "detail": {
+        "missing_columns": []
+      }
+    },
+    {
+      "check": "test.non_empty",
+      "passed": true,
+      "detail": {
+        "rows": 33476
+      }
+    },
+    {
+      "check": "test.labels_binary",
+      "passed": true,
+      "detail": {
+        "labels": [
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "check": "test.label_name_consistent",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "test.no_empty_model_text",
+      "passed": true,
+      "detail": {
+        "empty": 0
+      }
+    },
+    {
+      "check": "test.no_empty_group_key",
+      "passed": true,
+      "detail": {
+        "empty": 0
+      }
+    },
+    {
+      "check": "test.no_duplicate_model_text",
+      "passed": true,
+      "detail": {
+        "duplicates": 0
+      }
+    },
+    {
+      "check": "test.no_label_conflicts",
+      "passed": true,
+      "detail": {
+        "conflicting_texts": 0
+      }
+    },
+    {
+      "check": "test.both_classes_present",
+      "passed": true,
+      "detail": {
+        "classes": [
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "check": "shift_test.schema",
+      "passed": true,
+      "detail": {
+        "missing_columns": []
+      }
+    },
+    {
+      "check": "shift_test.non_empty",
+      "passed": true,
+      "detail": {
+        "rows": 17902
+      }
+    },
+    {
+      "check": "shift_test.labels_binary",
+      "passed": true,
+      "detail": {
+        "labels": [
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "check": "shift_test.label_name_consistent",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "shift_test.no_empty_model_text",
+      "passed": true,
+      "detail": {
+        "empty": 0
+      }
+    },
+    {
+      "check": "shift_test.no_empty_group_key",
+      "passed": true,
+      "detail": {
+        "empty": 0
+      }
+    },
+    {
+      "check": "shift_test.no_duplicate_model_text",
+      "passed": true,
+      "detail": {
+        "duplicates": 0
+      }
+    },
+    {
+      "check": "shift_test.no_label_conflicts",
+      "passed": true,
+      "detail": {
+        "conflicting_texts": 0
+      }
+    },
+    {
+      "check": "shift_test.both_classes_present",
+      "passed": true,
+      "detail": {
+        "classes": [
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "check": "temporal_test.schema",
+      "passed": true,
+      "detail": {
+        "missing_columns": []
+      }
+    },
+    {
+      "check": "temporal_test.non_empty",
+      "passed": true,
+      "detail": {
+        "rows": 774
+      }
+    },
+    {
+      "check": "temporal_test.labels_binary",
+      "passed": true,
+      "detail": {
+        "labels": [
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "check": "temporal_test.label_name_consistent",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "temporal_test.no_empty_model_text",
+      "passed": true,
+      "detail": {
+        "empty": 0
+      }
+    },
+    {
+      "check": "temporal_test.no_empty_group_key",
+      "passed": true,
+      "detail": {
+        "empty": 0
+      }
+    },
+    {
+      "check": "temporal_test.no_duplicate_model_text",
+      "passed": true,
+      "detail": {
+        "duplicates": 0
+      }
+    },
+    {
+      "check": "temporal_test.no_label_conflicts",
+      "passed": true,
+      "detail": {
+        "conflicting_texts": 0
+      }
+    },
+    {
+      "check": "temporal_test.both_classes_present",
+      "passed": true,
+      "detail": {
+        "classes": [
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "check": "task.sms_excluded",
+      "passed": true,
+      "detail": {
+        "sms_rows": 0
+      }
+    },
+    {
+      "check": "task.training_pool_is_phiusiil_only",
+      "passed": true,
+      "detail": {
+        "datasets": [
+          "phiusiil"
+        ]
+      }
+    },
+    {
+      "check": "task.eval_sets_are_phishvn_only",
+      "passed": true,
+      "detail": {
+        "datasets": [
+          "phishvn"
+        ]
+      }
+    },
+    {
+      "check": "leakage.text.train_vs_val",
+      "passed": true,
+      "detail": {
+        "overlap": 0
+      }
+    },
+    {
+      "check": "leakage.domain.train_vs_val",
+      "passed": true,
+      "detail": {
+        "overlap": 0
+      }
+    },
+    {
+      "check": "leakage.text.train_vs_test",
+      "passed": true,
+      "detail": {
+        "overlap": 0
+      }
+    },
+    {
+      "check": "leakage.domain.train_vs_test",
+      "passed": true,
+      "detail": {
+        "overlap": 0
+      }
+    },
+    {
+      "check": "leakage.text.train_vs_shift_test",
+      "passed": true,
+      "detail": {
+        "overlap": 0
+      }
+    },
+    {
+      "check": "leakage.domain.train_vs_shift_test",
+      "passed": true,
+      "detail": {
+        "overlap": 0
+      }
+    },
+    {
+      "check": "leakage.text.train_vs_temporal_test",
+      "passed": true,
+      "detail": {
+        "overlap": 0
+      }
+    },
+    {
+      "check": "leakage.domain.train_vs_temporal_test",
+      "passed": true,
+      "detail": {
+        "overlap": 0
+      }
+    },
+    {
+      "check": "leakage.domain.val_vs_test",
+      "passed": true,
+      "detail": {
+        "overlap": 0
+      }
+    },
+    {
+      "check": "leakage.domain.pool_vs_shift",
+      "passed": true,
+      "detail": {
+        "overlap": 0
+      }
+    },
+    {
+      "check": "split.class_ratio_drift",
+      "passed": true,
+      "detail": {
+        "phishing_rate": {
+          "train": 0.423,
+          "val": 0.405,
+          "test": 0.4088
+        },
+        "max_drift": 0.018,
+        "allowed": 0.05
+      }
+    },
+    {
+      "check": "temporal.min_rows",
+      "passed": true,
+      "detail": {
+        "rows": 774,
+        "required": 50
+      }
+    },
+    {
+      "check": "temporal.all_rows_dated",
+      "passed": true,
+      "detail": {
+        "undated": 0
+      }
+    },
+    {
+      "check": "temporal.all_after_cutoff",
+      "passed": true,
+      "detail": {
+        "cutoff": "2024-03-08",
+        "min_date": "2024-03-11"
+      }
+    },
+    {
+      "check": "temporal.only_attested_sources",
+      "passed": true,
+      "detail": {
+        "sources": [
+          "tinnhiem_org",
+          "tinnhiemmang"
+        ]
+      }
+    },
+    {
+      "check": "temporal.phiusiil_has_no_dates",
+      "passed": true,
+      "detail": {
+        "dated_rows": 0
+      }
+    },
+    {
+      "check": "temporal.no_dates_from_unattested_sources",
+      "passed": true,
+      "detail": {
+        "rows": 0
+      }
+    }
+  ]
+}

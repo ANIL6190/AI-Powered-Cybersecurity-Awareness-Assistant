@@ -1,0 +1,116 @@
+{
+  "task": "binary_url_phishing",
+  "url_representation": "canonical_url",
+  "temporal_cutoff_date": "2024-03-08",
+  "phiusiil": {
+    "rows_raw": 235795,
+    "labels_raw": {
+      "legitimate": 134850,
+      "phishing": 100945
+    },
+    "dropped_too_short": 1,
+    "dropped_no_domain": 0,
+    "label_conflict_texts": 43,
+    "label_conflict_rows_dropped": 86,
+    "duplicate_rows_dropped": 3962,
+    "rows_final": 231746,
+    "has_path_rate_by_label": {
+      "legitimate": 0.0,
+      "phishing": 0.2825
+    }
+  },
+  "train_rows": 164113,
+  "train_labels": {
+    "legitimate": 94694,
+    "phishing": 69419
+  },
+  "train_domains": 138626,
+  "val_rows": 34157,
+  "val_labels": {
+    "legitimate": 20322,
+    "phishing": 13835
+  },
+  "val_domains": 29662,
+  "test_rows": 33476,
+  "test_labels": {
+    "legitimate": 19791,
+    "phishing": 13685
+  },
+  "test_domains": 29377,
+  "phishvn": {
+    "rows_raw": 53116,
+    "rows_after_tier_filter": 18997,
+    "tiers_used": [
+      "gold",
+      "silver"
+    ],
+    "attested_date_sources": [
+      "tinnhiemmang",
+      "tinnhiem_org"
+    ],
+    "unparseable_attested_dates": 0,
+    "rows_with_event_date": 4613,
+    "dropped_too_short": 0,
+    "dropped_no_domain": 0,
+    "label_conflict_texts": 0,
+    "label_conflict_rows_dropped": 0,
+    "duplicate_rows_dropped": 64,
+    "removed_exact_text_overlap": 506,
+    "removed_domain_overlap": 525,
+    "rows_final": 17902,
+    "labels_final": {
+      "legitimate": 15346,
+      "phishing": 2556
+    },
+    "source_labels_final": {
+      "tinnhiem_org": {
+        "legitimate": 1658,
+        "phishing": 0
+      },
+      "tinnhiem_web": {
+        "legitimate": 5753,
+        "phishing": 0
+      },
+      "tinnhiemmang": {
+        "legitimate": 0,
+        "phishing": 2556
+      },
+      "tranco": {
+        "legitimate": 5466,
+        "phishing": 0
+      },
+      "tranco_vn": {
+        "legitimate": 2469,
+        "phishing": 0
+      }
+    }
+  },
+  "shift_test_rows": 17902,
+  "shift_test_labels": {
+    "legitimate": 15346,
+    "phishing": 2556
+  },
+  "temporal_test_rows": 774,
+  "temporal_test_labels": {
+    "legitimate": 404,
+    "phishing": 370
+  },
+  "temporal_test_source_labels": {
+    "tinnhiem_org": {
+      "legitimate": 404,
+      "phishing": 0
+    },
+    "tinnhiemmang": {
+      "legitimate": 0,
+      "phishing": 370
+    }
+  },
+  "temporal_test_date_range": [
+    "2024-03-11",
+    "2026-03-25"
+  ],
+  "phishvn_dated_pre_cutoff_labels": {
+    "legitimate": 1254,
+    "phishing": 2186
+  }
+}

@@ -1,0 +1,67 @@
+base:
+  random_seed: 42
+  log_level: INFO
+
+raw_data:
+  sms_path: "SMSSpamCollection"
+  phiusiil_path: "PhiUSIIL_Phishing_URL_Dataset.csv"
+  verified_online_path: "verified_online.csv"
+  email_path: null
+
+cleaning:
+  min_text_length: 3
+  remove_corrupted: true
+  deduplicate_cross_dataset: true
+  url_token: "<URL>"
+  email_token: "<EMAIL>"
+  phone_token: "<PHONE>"
+  amount_token: "<AMOUNT>"
+  otp_token: "<OTP>"
+  keep_signals:
+    - "urgent"
+    - "urgently"
+    - "verify"
+    - "verification"
+    - "suspend"
+    - "suspended"
+    - "action"
+    - "immediately"
+    - "winner"
+    - "prize"
+    - "claim"
+    - "not"
+    - "no"
+    - "now"
+    - "free"
+    - "alert"
+    - "bank"
+    - "account"
+    - "security"
+    - "login"
+    - "blocked"
+    - "warning"
+
+split:
+  train_ratio: 0.70
+  val_ratio: 0.15
+  test_ratio: 0.15
+  stratify: true
+
+imbalance:
+  strategy: "class_weights" # options: "class_weights", "oversample", "undersample", "none"
+  apply_to: "train_only"
+
+features:
+  tfidf:
+    max_features: 5000
+    ngram_range: [1, 2]
+    min_df: 2
+  sequence:
+    max_vocab_size: 10000
+    max_sequence_length: 100
+    padding: "post"
+    truncating: "post"
+
+output:
+  processed_dir: "data/processed"
+  reports_dir: "reports"

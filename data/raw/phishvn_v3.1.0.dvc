@@ -1,0 +1,6 @@
+outs:
+- md5: 4e866d624edb77ea1e9c20ebb1187055.dir
+  size: 12371628
+  nfiles: 9
+  hash: md5
+  path: phishvn_v3.1.0

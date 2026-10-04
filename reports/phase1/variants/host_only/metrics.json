@@ -1,0 +1,403 @@
+{
+  "threshold": 0.5,
+  "temporal_split_date": "2024-03-08",
+  "url_representation": "host_only",
+  "models": {
+    "logreg": {
+      "test": {
+        "n": 31735,
+        "n_phishing": 11945,
+        "n_legitimate": 19790,
+        "precision": 0.8489249880554228,
+        "recall": 0.743742151527836,
+        "f1": 0.7928603302097278,
+        "accuracy": 0.8537261698440208,
+        "roc_auc": 0.906334596139329,
+        "pr_auc": 0.8954204972982636,
+        "false_positive_rate": 0.07988883274381,
+        "false_negative_rate": 0.2562578484721641,
+        "tn": 18209,
+        "fp": 1581,
+        "fn": 3061,
+        "tp": 8884
+      },
+      "test_no_path_subset": {
+        "n": 29439,
+        "n_phishing": 9649,
+        "n_legitimate": 19790,
+        "precision": 0.8189832837188001,
+        "recall": 0.7413203440771065,
+        "f1": 0.7782190066909644,
+        "accuracy": 0.8615102415163558,
+        "roc_auc": 0.9063782159561079,
+        "pr_auc": 0.8802301269044723,
+        "false_positive_rate": 0.07988883274381,
+        "false_negative_rate": 0.25867965592289355,
+        "tn": 18209,
+        "fp": 1581,
+        "fn": 2496,
+        "tp": 7153
+      },
+      "shift_test": {
+        "n": 17874,
+        "n_phishing": 2552,
+        "n_legitimate": 15322,
+        "precision": 0.30960965668600093,
+        "recall": 0.7739028213166145,
+        "f1": 0.4422796999216213,
+        "accuracy": 0.7213270672485174,
+        "roc_auc": 0.8216953187561149,
+        "pr_auc": 0.4858492830358339,
+        "false_positive_rate": 0.28742983944654743,
+        "false_negative_rate": 0.22609717868338558,
+        "tn": 10918,
+        "fp": 4404,
+        "fn": 577,
+        "tp": 1975
+      },
+      "shift_test_by_source": {
+        "tinnhiem_org": {
+          "class": "legitimate",
+          "n": 1636,
+          "false_positive_rate": 0.1552567237163814
+        },
+        "tinnhiem_web": {
+          "class": "legitimate",
+          "n": 5752,
+          "false_positive_rate": 0.22183588317107092
+        },
+        "tinnhiemmang": {
+          "class": "phishing",
+          "n": 2552,
+          "recall": 0.7739028213166145
+        },
+        "tranco": {
+          "class": "legitimate",
+          "n": 5465,
+          "false_positive_rate": 0.33083257090576396
+        },
+        "tranco_vn": {
+          "class": "legitimate",
+          "n": 2469,
+          "false_positive_rate": 0.4317537464560551
+        }
+      },
+      "phishvn_phishing_pre_cutoff": {
+        "n_phishing": 2182,
+        "tp": 1719,
+        "fn": 463,
+        "recall": 0.7878093492208983,
+        "false_negative_rate": 0.21219065077910174
+      },
+      "phishvn_phishing_recall_by_year": {
+        "2020": {
+          "n_phishing": 389,
+          "tp": 315,
+          "fn": 74,
+          "recall": 0.8097686375321337,
+          "false_negative_rate": 0.19023136246786632
+        },
+        "2021": {
+          "n_phishing": 1111,
+          "tp": 839,
+          "fn": 272,
+          "recall": 0.7551755175517552,
+          "false_negative_rate": 0.2448244824482448
+        },
+        "2022": {
+          "n_phishing": 555,
+          "tp": 470,
+          "fn": 85,
+          "recall": 0.8468468468468469,
+          "false_negative_rate": 0.15315315315315314
+        },
+        "2023": {
+          "n_phishing": 124,
+          "tp": 92,
+          "fn": 32,
+          "recall": 0.7419354838709677,
+          "false_negative_rate": 0.25806451612903225
+        },
+        "2024": {
+          "n_phishing": 334,
+          "tp": 232,
+          "fn": 102,
+          "recall": 0.6946107784431138,
+          "false_negative_rate": 0.30538922155688625
+        },
+        "2025": {
+          "n_phishing": 39,
+          "tp": 27,
+          "fn": 12,
+          "recall": 0.6923076923076923,
+          "false_negative_rate": 0.3076923076923077
+        }
+      },
+      "temporal_test": {
+        "n": 774,
+        "n_phishing": 370,
+        "n_legitimate": 404,
+        "precision": 0.628992628992629,
+        "recall": 0.6918918918918919,
+        "f1": 0.6589446589446589,
+        "accuracy": 0.6576227390180879,
+        "roc_auc": 0.7104495584693604,
+        "pr_auc": 0.694787772231583,
+        "false_positive_rate": 0.37376237623762376,
+        "false_negative_rate": 0.3081081081081081,
+        "tn": 253,
+        "fp": 151,
+        "fn": 114,
+        "tp": 256
+      },
+      "temporal_phishing_only": {
+        "n_phishing": 370,
+        "tp": 256,
+        "fn": 114,
+        "recall": 0.6918918918918919,
+        "false_negative_rate": 0.3081081081081081
+      },
+      "temporal_test_by_source": {
+        "tinnhiem_org": {
+          "class": "legitimate",
+          "n": 404,
+          "false_positive_rate": 0.37376237623762376
+        },
+        "tinnhiemmang": {
+          "class": "phishing",
+          "n": 370,
+          "recall": 0.6918918918918919
+        }
+      },
+      "val": {
+        "n": 32827,
+        "n_phishing": 12507,
+        "n_legitimate": 20320,
+        "precision": 0.852831560767203,
+        "recall": 0.7501399216438794,
+        "f1": 0.7981963586864046,
+        "accuracy": 0.8554848143296676,
+        "roc_auc": 0.9095897439166352,
+        "pr_auc": 0.9002367551277923,
+        "false_positive_rate": 0.0796751968503937,
+        "false_negative_rate": 0.24986007835612056,
+        "tn": 18701,
+        "fp": 1619,
+        "fn": 3125,
+        "tp": 9382
+      },
+      "candidate_quality_gate_metrics": {
+        "phishvn_post_split_phishing_recall": 0.6918918918918919,
+        "heldout_phishing_f1": 0.7928603302097278
+      }
+    },
+    "xgboost": {
+      "test": {
+        "n": 31735,
+        "n_phishing": 11945,
+        "n_legitimate": 19790,
+        "precision": 0.8749344795051892,
+        "recall": 0.6987023859355379,
+        "f1": 0.7769502885868553,
+        "accuracy": 0.8489995273357491,
+        "roc_auc": 0.8982587892841348,
+        "pr_auc": 0.8868269258847314,
+        "false_positive_rate": 0.06028297119757453,
+        "false_negative_rate": 0.3012976140644621,
+        "tn": 18597,
+        "fp": 1193,
+        "fn": 3599,
+        "tp": 8346
+      },
+      "test_no_path_subset": {
+        "n": 29439,
+        "n_phishing": 9649,
+        "n_legitimate": 19790,
+        "precision": 0.8493496653617881,
+        "recall": 0.6970670535806819,
+        "f1": 0.7657103825136612,
+        "accuracy": 0.8601854682563945,
+        "roc_auc": 0.8992705980941664,
+        "pr_auc": 0.8713588805640137,
+        "false_positive_rate": 0.06028297119757453,
+        "false_negative_rate": 0.30293294641931806,
+        "tn": 18597,
+        "fp": 1193,
+        "fn": 2923,
+        "tp": 6726
+      },
+      "shift_test": {
+        "n": 17874,
+        "n_phishing": 2552,
+        "n_legitimate": 15322,
+        "precision": 0.3092105263157895,
+        "recall": 0.6814263322884012,
+        "f1": 0.42539138943248533,
+        "accuracy": 0.7371601208459214,
+        "roc_auc": 0.8161911141354719,
+        "pr_auc": 0.4746210300803376,
+        "false_positive_rate": 0.25355697689596657,
+        "false_negative_rate": 0.31857366771159873,
+        "tn": 11437,
+        "fp": 3885,
+        "fn": 813,
+        "tp": 1739
+      },
+      "shift_test_by_source": {
+        "tinnhiem_org": {
+          "class": "legitimate",
+          "n": 1636,
+          "false_positive_rate": 0.12897310513447433
+        },
+        "tinnhiem_web": {
+          "class": "legitimate",
+          "n": 5752,
+          "false_positive_rate": 0.19523643949930458
+        },
+        "tinnhiemmang": {
+          "class": "phishing",
+          "n": 2552,
+          "recall": 0.6814263322884012
+        },
+        "tranco": {
+          "class": "legitimate",
+          "n": 5465,
+          "false_positive_rate": 0.2698993595608417
+        },
+        "tranco_vn": {
+          "class": "legitimate",
+          "n": 2469,
+          "false_positive_rate": 0.435803969218307
+        }
+      },
+      "phishvn_phishing_pre_cutoff": {
+        "n_phishing": 2182,
+        "tp": 1516,
+        "fn": 666,
+        "recall": 0.694775435380385,
+        "false_negative_rate": 0.30522456461961506
+      },
+      "phishvn_phishing_recall_by_year": {
+        "2020": {
+          "n_phishing": 389,
+          "tp": 288,
+          "fn": 101,
+          "recall": 0.7403598971722365,
+          "false_negative_rate": 0.2596401028277635
+        },
+        "2021": {
+          "n_phishing": 1111,
+          "tp": 710,
+          "fn": 401,
+          "recall": 0.639063906390639,
+          "false_negative_rate": 0.3609360936093609
+        },
+        "2022": {
+          "n_phishing": 555,
+          "tp": 435,
+          "fn": 120,
+          "recall": 0.7837837837837838,
+          "false_negative_rate": 0.21621621621621623
+        },
+        "2023": {
+          "n_phishing": 124,
+          "tp": 81,
+          "fn": 43,
+          "recall": 0.6532258064516129,
+          "false_negative_rate": 0.3467741935483871
+        },
+        "2024": {
+          "n_phishing": 334,
+          "tp": 204,
+          "fn": 130,
+          "recall": 0.6107784431137725,
+          "false_negative_rate": 0.38922155688622756
+        },
+        "2025": {
+          "n_phishing": 39,
+          "tp": 21,
+          "fn": 18,
+          "recall": 0.5384615384615384,
+          "false_negative_rate": 0.46153846153846156
+        }
+      },
+      "temporal_test": {
+        "n": 774,
+        "n_phishing": 370,
+        "n_legitimate": 404,
+        "precision": 0.6501457725947521,
+        "recall": 0.6027027027027027,
+        "f1": 0.6255259467040674,
+        "accuracy": 0.6550387596899225,
+        "roc_auc": 0.7571782178217822,
+        "pr_auc": 0.7421888264145808,
+        "false_positive_rate": 0.297029702970297,
+        "false_negative_rate": 0.3972972972972973,
+        "tn": 284,
+        "fp": 120,
+        "fn": 147,
+        "tp": 223
+      },
+      "temporal_phishing_only": {
+        "n_phishing": 370,
+        "tp": 223,
+        "fn": 147,
+        "recall": 0.6027027027027027,
+        "false_negative_rate": 0.3972972972972973
+      },
+      "temporal_test_by_source": {
+        "tinnhiem_org": {
+          "class": "legitimate",
+          "n": 404,
+          "false_positive_rate": 0.297029702970297
+        },
+        "tinnhiemmang": {
+          "class": "phishing",
+          "n": 370,
+          "recall": 0.6027027027027027
+        }
+      },
+      "val": {
+        "n": 32827,
+        "n_phishing": 12507,
+        "n_legitimate": 20320,
+        "precision": 0.8830058939096267,
+        "recall": 0.7187175181898137,
+        "f1": 0.7924361969409794,
+        "accuracy": 0.8565510098394614,
+        "roc_auc": 0.906208893098605,
+        "pr_auc": 0.8973286542968418,
+        "false_positive_rate": 0.05861220472440945,
+        "false_negative_rate": 0.2812824818101863,
+        "tn": 19129,
+        "fp": 1191,
+        "fn": 3518,
+        "tp": 8989
+      },
+      "candidate_quality_gate_metrics": {
+        "phishvn_post_split_phishing_recall": 0.6027027027027027,
+        "heldout_phishing_f1": 0.7769502885868553
+      }
+    }
+  },
+  "reference_has_path_rule": {
+    "test": {
+      "precision": 1.0,
+      "recall": 0.1922143156132273,
+      "f1": 0.32244926620321607,
+      "false_positive_rate": 0.0
+    },
+    "shift_test": {
+      "precision": 0.6,
+      "recall": 0.0023510971786833857,
+      "f1": 0.00468384074941452,
+      "false_positive_rate": 0.0002610625244746117
+    },
+    "temporal_test": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "false_positive_rate": 0.0
+    }
+  }
+}
