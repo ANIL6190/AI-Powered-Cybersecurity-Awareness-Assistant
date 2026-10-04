@@ -69,12 +69,21 @@ def _git(*args: str) -> Optional[str]:
         return None
 
 
+# Paths written by the pipeline itself. DVC deletes and regenerates these while stages run,
+# so they are excluded when deciding whether the code/config differs from the commit.
+PIPELINE_OUTPUT_PATHS = ("reports/phase1", "dvc.lock")
+
+
 def lineage_tags(data_paths: Dict[str, str]) -> Dict[str, str]:
     """Git state, environment and input-data hashes, logged as run tags for lineage."""
+    excludes = [f":(exclude){p}" for p in PIPELINE_OUTPUT_PATHS]
     tags = {
         "git.commit": _git("rev-parse", "HEAD") or "unknown",
         "git.branch": _git("rev-parse", "--abbrev-ref", "HEAD") or "unknown",
-        "git.dirty": str(bool(_git("status", "--porcelain"))),
+        # True if code/config/docs differ from the commit (pipeline outputs ignored)
+        "git.dirty": str(bool(_git("status", "--porcelain", "--", ".", *excludes))),
+        # True if anything differs, including outputs DVC is regenerating during the run
+        "git.dirty_including_outputs": str(bool(_git("status", "--porcelain"))),
         "python.version": platform.python_version(),
         "platform": platform.platform(),
         "pipeline.phase": "phase1",
