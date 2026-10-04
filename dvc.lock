@@ -271,8 +271,8 @@ stages:
       size: 10543
     - path: src/utils/tracking.py
       hash: md5
-      md5: fca85370fc90a24d281c54ace29c1a04
-      size: 4138
+      md5: c882e1493e296b62b3843fc1f56e1297
+      size: 4715
     params:
       params.yaml:
         base.random_seed: 42
@@ -297,7 +297,7 @@ stages:
       size: 800891
     - path: reports/phase1/train_logreg.json
       hash: md5
-      md5: 6857e65013ae557bc3997e061af53ddc
+      md5: 6efaf2ef8ee1a6119f917f033c79a827
       size: 627
   train_xgboost:
     cmd: python -m src.models.train --config params.yaml --model xgboost
@@ -321,8 +321,8 @@ stages:
       size: 10543
     - path: src/utils/tracking.py
       hash: md5
-      md5: fca85370fc90a24d281c54ace29c1a04
-      size: 4138
+      md5: c882e1493e296b62b3843fc1f56e1297
+      size: 4715
     params:
       params.yaml:
         base.random_seed: 42
@@ -355,7 +355,7 @@ stages:
       size: 1488638
     - path: reports/phase1/train_xgboost.json
       hash: md5
-      md5: 4265a32dc4fbed65a5552e1db666dfd6
+      md5: 8836f85aa51bc4c1a82160124b70640b
       size: 694
   evaluate:
     cmd: python -m src.models.evaluate --config params.yaml
@@ -387,11 +387,11 @@ stages:
       size: 1488638
     - path: reports/phase1/train_logreg.json
       hash: md5
-      md5: 6857e65013ae557bc3997e061af53ddc
+      md5: 6efaf2ef8ee1a6119f917f033c79a827
       size: 627
     - path: reports/phase1/train_xgboost.json
       hash: md5
-      md5: 4265a32dc4fbed65a5552e1db666dfd6
+      md5: 8836f85aa51bc4c1a82160124b70640b
       size: 694
     - path: src/models/evaluate.py
       hash: md5
@@ -403,8 +403,8 @@ stages:
       size: 4032
     - path: src/utils/tracking.py
       hash: md5
-      md5: fca85370fc90a24d281c54ace29c1a04
-      size: 4138
+      md5: c882e1493e296b62b3843fc1f56e1297
+      size: 4715
     params:
       params.yaml:
         evaluation.threshold: 0.5

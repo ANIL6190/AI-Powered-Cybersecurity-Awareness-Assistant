@@ -1,6 +1,6 @@
 {
   "model": "logreg",
-  "mlflow_run_id": "e781e0770e834e579d38887d2badba5a",
+  "mlflow_run_id": "9617bdbe8afa40bd90d249352dc4111f",
   "threshold": 0.5,
   "validation": {
     "n": 34157,
@@ -19,7 +19,7 @@
     "fn": 2971,
     "tp": 10864
   },
-  "train_seconds": 1.88,
+  "train_seconds": 1.83,
   "n_train": 164113,
   "n_features": 100000
 }

@@ -1,6 +1,6 @@
 {
   "model": "xgboost",
-  "mlflow_run_id": "2e4b1b13be3e41a4aa13d9dbc06db3b6",
+  "mlflow_run_id": "cb185621d06546c8baf8bc9d58ad64a1",
   "threshold": 0.5,
   "validation": {
     "n": 34157,
@@ -19,7 +19,7 @@
     "fn": 3189,
     "tp": 10646
   },
-  "train_seconds": 93.05,
+  "train_seconds": 98.99,
   "n_train": 164113,
   "n_features": 100000,
   "best_iteration": 446,
